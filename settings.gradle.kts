@@ -3,7 +3,7 @@ pluginManagement {
         mavenLocal()
 //        maven { setUrl("https://maven.aliyun.com/repository/public/") }
 //        maven { setUrl("https://repo.huaweicloud.com/repository/maven/") }
-//        maven { setUrl("https://jitpack.io") }
+        maven { setUrl("https://jitpack.io") }
         gradlePluginPortal()
         google()
         mavenCentral()
@@ -17,7 +17,7 @@ dependencyResolutionManagement {
         mavenLocal()
 //        maven { setUrl("https://maven.aliyun.com/repository/public/") }
 //        maven { setUrl("https://repo.huaweicloud.com/repository/maven/") }
-//        maven { setUrl("https://jitpack.io") }
+        maven { setUrl("https://jitpack.io") }
         google()
         mavenCentral()
         maven { setUrl("https://maven.scijava.org/content/repositories/public/") }

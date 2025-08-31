@@ -183,6 +183,7 @@ room {
 }*/
 
 dependencies {
+    implementation(libs.androidx.material3)
     compileOnly(project(":hidden-api"))
 
     implementation(libs.androidx.core)
@@ -236,4 +237,7 @@ dependencies {
 
     // log
     implementation(libs.timber)
+
+    implementation(libs.monetcompat)
+    implementation(libs.androidx.palette)
 }

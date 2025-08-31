@@ -38,10 +38,13 @@
     <string name="telegram_group_desc">Join the group!</string>
 
     <string name="theme_settings">Theme Settings</string>
-    <string name="theme_settings_ui_style">UI Style</string>
     <string name="theme_settings_desc">Change the theme of the app</string>
+    <string name="theme_settings_ui_style">UI Style</string>
     <string name="theme_settings_use_refreshed_ui">Use Refreshed UI</string>
     <string name="theme_settings_use_refreshed_ui_desc">Use the new Google UI for the App</string>
+    <string name="theme_settings_ui_color">UI Color</string>
+    <string name="theme_settings_choose_wallpaper_color">Choose wallpaper color</string>
+    <string name="theme_settings_choose_wallpaper_color_desc">Choose a wallpaper color as the theme color</string>
     <string name="installer_settings">Installer Settings</string>
     <string name="installer_settings_desc">Change the global settings of the installer</string>
     <string name="installer_settings_global_installer">Global</string>
