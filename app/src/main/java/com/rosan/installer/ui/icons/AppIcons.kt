@@ -25,6 +25,7 @@ import androidx.compose.material.icons.twotone.AutoFixHigh
 import androidx.compose.material.icons.twotone.Badge
 import androidx.compose.material.icons.twotone.BatterySaver
 import androidx.compose.material.icons.twotone.BugReport
+import androidx.compose.material.icons.twotone.Check
 import androidx.compose.material.icons.twotone.ClearAll
 import androidx.compose.material.icons.twotone.Close
 import androidx.compose.material.icons.twotone.ColorLens
@@ -36,6 +37,7 @@ import androidx.compose.material.icons.twotone.Edit
 import androidx.compose.material.icons.twotone.Face
 import androidx.compose.material.icons.twotone.Favorite
 import androidx.compose.material.icons.twotone.FavoriteBorder
+import androidx.compose.material.icons.twotone.FormatPaint
 import androidx.compose.material.icons.twotone.History
 import androidx.compose.material.icons.twotone.HourglassDisabled
 import androidx.compose.material.icons.twotone.HourglassEmpty
@@ -79,6 +81,8 @@ object AppIcons {
     val AutoFixHigh = Icons.TwoTone.AutoFixHigh
     val Developer = Icons.TwoTone.DeveloperMode
     val Theme = Icons.TwoTone.ColorLens
+    val Check = Icons.TwoTone.Check
+    val PaintBrush = Icons.TwoTone.FormatPaint
 
     // --- 导航图标集合 ---
     val RoomPreferences = Icons.TwoTone.RoomPreferences

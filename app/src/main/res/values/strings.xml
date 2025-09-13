@@ -41,12 +41,15 @@
     <string name="telegram_channel_desc">Join the channel to receive news and updates!</string>
 
     <string name="theme_settings">Theme Settings</string>
-    <string name="theme_settings_ui_style">UI Style</string>
     <string name="theme_settings_desc">Change the theme of the app</string>
+    <string name="theme_settings_ui_style">UI Style</string>
     <string name="theme_settings_miuix_ui">Miuix</string>
     <string name="theme_settings_miuix_ui_desc">Similar to Hyperos</string>
     <string name="theme_settings_google_ui">Google Material 3</string>
     <string name="theme_settings_google_ui_desc">Standard Material Design UI</string>
+    <string name="theme_settings_ui_color">UI Color</string>
+    <string name="theme_settings_wallpaper_color_picker">Choose wallpaper color</string>
+    <string name="theme_settings_wallpaper_color_picker_desc">Choose a wallpaper color as the theme color</string>
     <string name="theme_settings_ui_engine">UI Engine</string>
     <string name="theme_settings_use_expressive_ui">Use Expressive UI</string>
     <string name="theme_settings_use_expressive_ui_desc">Use the new M3 Expressive style</string>

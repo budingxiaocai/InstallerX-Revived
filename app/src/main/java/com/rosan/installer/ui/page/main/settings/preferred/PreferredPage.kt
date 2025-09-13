@@ -3,13 +3,19 @@ package com.rosan.installer.ui.page.main.settings.preferred
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -28,9 +34,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -51,6 +61,7 @@ import com.rosan.installer.ui.page.main.widget.setting.IgnoreBatteryOptimization
 import com.rosan.installer.ui.page.main.widget.setting.LabelWidget
 import com.rosan.installer.ui.page.main.widget.setting.SettingsAboutItemWidget
 import com.rosan.installer.ui.page.main.widget.setting.SettingsNavigationItemWidget
+import com.rosan.installer.util.openUrl
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -251,7 +262,43 @@ fun PreferredPage(
     if (showBottomSheet) ModalBottomSheet(onDismissRequest = { showBottomSheet = false }) {
         BottomSheetContent(
             title = stringResource(R.string.get_update)
-        )
+        ) {
+            val context = LocalContext.current
+            val haptic = LocalHapticFeedback.current
+
+            // GitHub 按钮
+            Button(
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+                    // 点击按钮时调用 openUrl 工具函数
+                    context.openUrl("https://github.com/wxxsfxyzm/InstallerX-Revived/releases")
+                },
+                modifier = Modifier.fillMaxWidth() // 按钮填充横向宽度
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_github),
+                    contentDescription = "GitHub Icon", // 辅助功能描述
+                    modifier = Modifier.size(24.dp) // 图标大小
+                )
+                Spacer(modifier = Modifier.width(8.dp)) // 图标与文字之间的间隔
+                Text(text = "GitHub") // 按钮文本
+            }
+            Button(
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
+                    context.openUrl("https://t.me/installerx_revived")
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_telegram),
+                    contentDescription = "Telegram Icon",
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = "Telegram") // 按钮文本
+            }
+        }
     }
 }
 

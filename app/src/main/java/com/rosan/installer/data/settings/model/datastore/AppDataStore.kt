@@ -22,6 +22,8 @@ class AppDataStore(
         val UI_EXPRESSIVE_SWITCH = booleanPreferencesKey("ui_fresh_switch")
         val UI_USE_MIUIX = booleanPreferencesKey("ui_use_miui_x")
 
+        val UI_WALLPAPER_COLOR = intPreferencesKey("ui_wallpaper_color")
+
         // Show Launcher Icon
         val SHOW_LAUNCHER_ICON = booleanPreferencesKey("show_launcher_icon")
 

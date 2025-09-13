@@ -32,12 +32,15 @@
     <string name="telegram_group_desc">歡迎加入討論！</string>
 
     <string name="theme_settings">主題設定</string>
-    <string name="theme_settings_ui_style">主題風格</string>
     <string name="theme_settings_desc">更改應用主題</string>
+    <string name="theme_settings_ui_style">主題風格</string>
     <string name="theme_settings_miuix_ui">Miuix</string>
     <string name="theme_settings_miuix_ui_desc">類 HyperOS 風格介面</string>
     <string name="theme_settings_google_ui">Google Material 3</string>
     <string name="theme_settings_google_ui_desc">標準Material Design介面</string>
+    <string name="theme_settings_ui_color">主題顏色</string>
+    <string name="theme_settings_wallpaper_color_picker">選擇桌面顏色</string>
+    <string name="theme_settings_wallpaper_color_picker_desc">選擇一個桌面顏色作為主題顏色</string>
     <string name="theme_settings_ui_engine">UI 引擎</string>
     <string name="theme_settings_use_expressive_ui">使用M3 Expressive外觀</string>
     <string name="theme_settings_use_expressive_ui_desc">使用全新Material 3 Expressive設計風格</string>

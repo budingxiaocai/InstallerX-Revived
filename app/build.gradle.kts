@@ -197,6 +197,7 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.navigation)
     implementation(libs.compose.materialIcons)
+    implementation(libs.compose.foundation)
     implementation(libs.material)
     // Preview support only for debug builds
     debugImplementation(libs.compose.ui.tooling)
@@ -240,6 +241,10 @@ dependencies {
 
     // miuix
     implementation(libs.miuix)
+
+    // monetcompat
+    implementation(libs.monetcompat)
+    implementation(libs.androidx.palette)
 
     implementation(libs.apache.commons.compress)
 }

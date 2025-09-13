@@ -27,7 +27,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.InputChip
@@ -57,6 +56,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.rosan.installer.R
 import com.rosan.installer.data.settings.model.datastore.entity.NamedPackage
@@ -65,7 +65,6 @@ import com.rosan.installer.data.settings.model.room.entity.ConfigEntity
 import com.rosan.installer.ui.icons.AppIcons
 import com.rosan.installer.ui.page.main.settings.preferred.PreferredViewAction
 import com.rosan.installer.ui.page.main.settings.preferred.PreferredViewModel
-import com.rosan.installer.util.openUrl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -498,10 +497,10 @@ fun SelectableSettingItem(
 
 @Composable
 fun BottomSheetContent(
-    title: String
+    title: String,
+    spacer: Dp = 60.dp,
+    content: @Composable () -> Unit
 ) {
-    val context = LocalContext.current
-    val haptic = LocalHapticFeedback.current
     Column(
         modifier = Modifier
             .fillMaxWidth() // 填充横向宽度
@@ -515,39 +514,8 @@ fun BottomSheetContent(
             modifier = Modifier.padding(bottom = 20.dp) // 标题下方留白
         )
 
-        // GitHub 按钮
-        Button(
-            onClick = {
-                haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-                // 点击按钮时调用 openUrl 工具函数
-                context.openUrl("https://github.com/wxxsfxyzm/InstallerX-Revived/releases")
-            },
-            modifier = Modifier.fillMaxWidth() // 按钮填充横向宽度
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_github),
-                contentDescription = "GitHub Icon", // 辅助功能描述
-                modifier = Modifier.size(24.dp) // 图标大小
-            )
-            Spacer(modifier = Modifier.width(8.dp)) // 图标与文字之间的间隔
-            Text(text = "GitHub") // 按钮文本
-        }
-        Button(
-            onClick = {
-                haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-                context.openUrl("https://t.me/installerx_revived")
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_telegram),
-                contentDescription = "Telegram Icon",
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Telegram") // 按钮文本
-        }
-        Spacer(modifier = Modifier.size(60.dp)) // 按钮下方留白
+        content() // 内容区域
+        Spacer(modifier = Modifier.size(spacer)) // 内容下方留白
     }
 }
 

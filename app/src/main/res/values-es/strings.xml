@@ -34,10 +34,13 @@
     <string name="telegram_group_desc">¡Únete al grupo!</string>
 
     <string name="theme_settings">Configuración de tema</string>
-    <string name="theme_settings_ui_style">Estilo de la interfaz</string>
     <string name="theme_settings_desc">Cambiar el tema de la aplicación</string>
+    <string name="theme_settings_ui_style">Estilo de la interfaz</string>
     <string name="theme_settings_use_expressive_ui">Usar nueva interfaz</string>
     <string name="theme_settings_use_expressive_ui_desc">Usar la nueva interfaz de Google para la App</string>
+    <string name="theme_settings_ui_color">Color del tema</string>
+    <string name="theme_settings_wallpaper_color_picker">Elija el color del Fondo de pantalla</string>
+    <string name="theme_settings_wallpaper_color_picker_desc">Elija un color de fondo de pantalla como color de tema</string>
     <string name="installer_settings">Configuración del instalador</string>
     <string name="installer_settings_desc">Cambiar la configuración global del instalador</string>
     <string name="installer_settings_global_installer">Global</string>

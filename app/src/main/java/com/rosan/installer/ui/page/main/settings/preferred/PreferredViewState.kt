@@ -20,6 +20,7 @@ data class PreferredViewState(
     val showExpressiveUI: Boolean = true,
     val showMiuixUI: Boolean = false,
     val showLauncherIcon: Boolean = true,
+    val wallpaperColor: Int = Integer.MAX_VALUE,
     val managedInstallerPackages: List<NamedPackage> = emptyList(),
     val managedBlacklistPackages: List<NamedPackage> = emptyList(),
     val managedSharedUserIdBlacklist: List<SharedUid> = emptyList(),

@@ -341,6 +341,9 @@
     <string name="theme_settings_ui_style">Стиль пользовательского интерфейса</string>
     <string name="theme_settings_use_expressive_ui">Использовать обновленный интерфейс</string>
     <string name="theme_settings_use_expressive_ui_desc">Используйте новый пользовательский интерфейс Google для приложения</string>
+    <string name="theme_settings_ui_color">Цвет темы</string>
+    <string name="theme_settings_wallpaper_color_picker">Выберите цвет обоев</string>
+    <string name="theme_settings_wallpaper_color_picker_desc">Выберите цвет обоев в качестве цвета темы</string>
     <string name="unarchive">Разархивировать</string>
     <string name="unarchive_desc">Разархивируйте существующий пакет.</string>
     <string name="unlock_default_installer">Отмените установку в качестве установщика по умолчанию</string>

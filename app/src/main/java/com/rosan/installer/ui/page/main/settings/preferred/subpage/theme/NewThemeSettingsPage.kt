@@ -1,35 +1,52 @@
 package com.rosan.installer.ui.page.main.settings.preferred.subpage.theme
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.twotone.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.kieronquinn.monetcompat.core.MonetCompat
 import com.rosan.installer.R
 import com.rosan.installer.ui.icons.AppIcons
 import com.rosan.installer.ui.page.main.settings.preferred.PreferredViewAction
 import com.rosan.installer.ui.page.main.settings.preferred.PreferredViewModel
 import com.rosan.installer.ui.page.main.widget.dialog.HideLauncherIconWarningDialog
 import com.rosan.installer.ui.page.main.widget.setting.AppBackButton
+import com.rosan.installer.ui.page.main.widget.setting.BaseWidget
+import com.rosan.installer.ui.page.main.widget.setting.BottomSheetContent
 import com.rosan.installer.ui.page.main.widget.setting.SelectableSettingItem
 import com.rosan.installer.ui.page.main.widget.setting.SplicedColumnGroup
 import com.rosan.installer.ui.page.main.widget.setting.SwitchWidget
@@ -45,6 +62,17 @@ fun NewThemeSettingsPage(
     val state = viewModel.state
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     var showHideLauncherIconDialog by remember { mutableStateOf(false) }
+    var showWallpaperColorPickerDialog by remember { mutableStateOf(false) }
+    var selectedIndex by remember { mutableIntStateOf(-1) }
+    var wallpaperColors by remember { mutableStateOf<List<Int>?>(null) }
+
+    fun getBlackLevel(color: Int): Int {
+        val r = (color shr 16) and 0xFF
+        val g = (color shr 8)  and 0xFF
+        val b =  color         and 0xFF
+        return (r * 299 + g * 587 + b * 114) / 1000
+    }
+
 
     HideLauncherIconWarningDialog(
         show = showHideLauncherIconDialog,
@@ -159,6 +187,79 @@ fun NewThemeSettingsPage(
                         )
                     }
                 )
+            }
+            item {
+                SplicedColumnGroup(
+                    title = stringResource(R.string.theme_settings_ui_color),
+                    content = listOf {
+                        BaseWidget(
+                            icon = AppIcons.PaintBrush,
+                            title = stringResource(R.string.theme_settings_wallpaper_color_picker),
+                            description = stringResource(R.string.theme_settings_wallpaper_color_picker_desc),
+                            onClick = {
+                                showWallpaperColorPickerDialog = true
+                            }
+                        ) {}
+                    }
+                )
+            }
+        }
+    }
+
+    if (showWallpaperColorPickerDialog) {
+        LaunchedEffect(Unit) {
+            wallpaperColors = MonetCompat.getInstance().getAvailableWallpaperColors()
+        }
+
+        selectedIndex = if (wallpaperColors?.contains(state.wallpaperColor) == true) {
+            wallpaperColors!!.indexOf(state.wallpaperColor)
+        } else 0
+
+        ModalBottomSheet(
+            onDismissRequest = {
+                showWallpaperColorPickerDialog = false
+                wallpaperColors?.let {
+                    if (selectedIndex < 0 || selectedIndex >= it.size) selectedIndex = 0
+                    viewModel.dispatch(PreferredViewAction.ChangeWallpaperColor(it[selectedIndex]))
+                }
+
+                selectedIndex = -1
+                wallpaperColors = null
+            }
+        ) {
+            BottomSheetContent(
+                title = stringResource(R.string.theme_settings_wallpaper_color_picker)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .horizontalScroll(rememberScrollState())
+                        .padding(horizontal = 12.dp)
+                ) {
+                    wallpaperColors?.forEachIndexed { index, wallpaperColor ->
+                        val isSelected = index == selectedIndex
+
+                        Box(
+                            modifier = Modifier
+                                .size(72.dp)
+                                .padding(8.dp)
+                                .clip(CircleShape)
+                                .background(Color(wallpaperColor))
+                                .clickable {
+                                    selectedIndex = index
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (isSelected) {
+                                Icon(
+                                    imageVector = AppIcons.Check,
+                                    contentDescription = null,
+                                    tint = if (getBlackLevel(wallpaperColor) > 128) Color.Black else Color.White,
+                                    modifier = Modifier.size(32.dp)
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }

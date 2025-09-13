@@ -15,6 +15,7 @@ import androidx.core.net.toUri
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kieronquinn.monetcompat.core.MonetCompat
 import com.rosan.installer.R
 import com.rosan.installer.build.Manufacturer
 import com.rosan.installer.build.RsConfig
@@ -72,6 +73,7 @@ class PreferredViewModel(
             is PreferredViewAction.ChangeShowExpressiveUI -> changeUseExpressiveUI(action.showRefreshedUI)
             is PreferredViewAction.ChangeUseMiuix -> changeUseMiuix(action.useMiuix)
             is PreferredViewAction.ChangeShowLauncherIcon -> changeShowLauncherIcon(action.showLauncherIcon)
+            is PreferredViewAction.ChangeWallpaperColor -> changeWallpaperColor(action.wallpaperColor)
             is PreferredViewAction.ChangeVersionCompareInSingleLine -> changeVersionCompareInSingleLine(action.versionCompareInSingleLine)
             is PreferredViewAction.AddManagedInstallerPackage -> addManagedPackage(
                 state.managedInstallerPackages,
@@ -150,6 +152,7 @@ class PreferredViewModel(
             val showExpressiveUIFlow = appDataStore.getBoolean(AppDataStore.UI_EXPRESSIVE_SWITCH, true)
             val showMiuixUIFlow = appDataStore.getBoolean(AppDataStore.UI_USE_MIUIX, false)
             val showLauncherIconFlow = appDataStore.getBoolean(AppDataStore.SHOW_LAUNCHER_ICON, true)
+            val wallpaperColorFlow = appDataStore.getInt(AppDataStore.UI_WALLPAPER_COLOR, Integer.MAX_VALUE)
             val managedInstallerPackagesFlow =
                 appDataStore.getNamedPackageList(AppDataStore.MANAGED_INSTALLER_PACKAGES_LIST)
             val managedBlacklistPackagesFlow =
@@ -182,6 +185,7 @@ class PreferredViewModel(
                 showExpressiveUIFlow,
                 showMiuixUIFlow,
                 showLauncherIconFlow,
+                wallpaperColorFlow,
                 managedInstallerPackagesFlow,
                 managedBlacklistPackagesFlow,
                 managedSharedUserIdBlacklistFlow,
@@ -201,14 +205,24 @@ class PreferredViewModel(
                 val showExpressiveUI = values[9] as Boolean
                 val showMiuixUI = values[10] as Boolean
                 val showLauncherIcon = values[11] as Boolean
-                val managedInstallerPackages = (values[12] as? List<*>)?.filterIsInstance<NamedPackage>() ?: emptyList()
-                val managedBlacklistPackages = (values[13] as? List<*>)?.filterIsInstance<NamedPackage>() ?: emptyList()
-                val managedSharedUserIdBlacklist = (values[14] as? List<*>)?.filterIsInstance<SharedUid>() ?: emptyList()
-                val managedSharedUserIdExemptPkg = (values[15] as? List<*>)?.filterIsInstance<NamedPackage>() ?: emptyList()
-                val adbVerifyEnabled = values[16] as Boolean
-                val isIgnoringBatteryOptimizations = values[17] as Boolean
+                val wallpaperColor = values[12] as Int
+                val managedInstallerPackages = (values[13] as? List<*>)?.filterIsInstance<NamedPackage>() ?: emptyList()
+                val managedBlacklistPackages = (values[14] as? List<*>)?.filterIsInstance<NamedPackage>() ?: emptyList()
+                val managedSharedUserIdBlacklist = (values[15] as? List<*>)?.filterIsInstance<SharedUid>() ?: emptyList()
+                val managedSharedUserIdExemptPkg = (values[16] as? List<*>)?.filterIsInstance<NamedPackage>() ?: emptyList()
+                val adbVerifyEnabled = values[17] as Boolean
+                val isIgnoringBatteryOptimizations = values[18] as Boolean
                 val customizeAuthorizer =
                     if (authorizer == ConfigEntity.Authorizer.Customize) customize else ""
+
+                MonetCompat.wallpaperColorPicker = { wallpaperColors ->
+                    if (
+                        wallpaperColor != Integer.MAX_VALUE &&
+                        wallpaperColors?.contains(wallpaperColor) == true
+                    ) wallpaperColor else wallpaperColors?.firstOrNull()
+                }
+                MonetCompat.getInstance().updateMonetColors()
+
                 PreferredViewState(
                     progress = PreferredViewState.Progress.Loaded,
                     authorizer = authorizer,
@@ -223,6 +237,7 @@ class PreferredViewModel(
                     showExpressiveUI = showExpressiveUI,
                     showMiuixUI = showMiuixUI,
                     showLauncherIcon = showLauncherIcon,
+                    wallpaperColor = wallpaperColor,
                     managedInstallerPackages = managedInstallerPackages,
                     managedBlacklistPackages = managedBlacklistPackages,
                     managedSharedUserIdBlacklist = managedSharedUserIdBlacklist,
@@ -306,6 +321,11 @@ class PreferredViewModel(
         )
         state = state.copy(showLauncherIcon = show)
     }
+
+    private fun changeWallpaperColor(wallpaperColor: Int) =
+        viewModelScope.launch {
+            appDataStore.putInt(AppDataStore.UI_WALLPAPER_COLOR, wallpaperColor)
+        }
 
     private fun changeVersionCompareInSingleLine(singleLine: Boolean) =
         viewModelScope.launch {

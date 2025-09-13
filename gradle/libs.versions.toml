@@ -26,6 +26,7 @@ datastoreCoreAndroid = "1.2.0-alpha02"
 aboutLibraries = "12.2.4"
 appiconloader = "1.5.0"
 timber = "5.0.1"
+monetcompat = "0.4.1"
 
 [plugins]
 agp-lib = { id = "com.android.library", version.ref = "agp" }
@@ -55,6 +56,7 @@ compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", ve
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version = "2.9.3" }
 compose-materialIcons = { group = "androidx.compose.material", name = "material-icons-extended", version = "1.7.8" }
+compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
 
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
@@ -118,3 +120,8 @@ apache-commons-compress = { group = "org.apache.commons", name = "commons-compre
 
 # miuix
 miuix = { group = "top.yukonga.miuix.kmp", name = "miuix-android", version = "0.5.1" }
+
+# MonetCompat
+# https://github.com/KieronQuinn/MonetCompat
+monetcompat = { module = "com.github.KieronQuinn:MonetCompat", version.ref = "monetcompat" }
+androidx-palette = { group = "androidx.palette", name = "palette", version = "1.0.0" }
