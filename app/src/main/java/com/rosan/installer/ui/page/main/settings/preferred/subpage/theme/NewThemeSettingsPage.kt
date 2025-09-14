@@ -73,7 +73,6 @@ fun NewThemeSettingsPage(
         return (r * 299 + g * 587 + b * 114) / 1000
     }
 
-
     HideLauncherIconWarningDialog(
         show = showHideLauncherIconDialog,
         onDismiss = { showHideLauncherIconDialog = false },
@@ -249,7 +248,7 @@ fun NewThemeSettingsPage(
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            if (isSelected) {
+                            androidx.compose.animation.AnimatedVisibility(visible = isSelected) {
                                 Icon(
                                     imageVector = AppIcons.Check,
                                     contentDescription = null,

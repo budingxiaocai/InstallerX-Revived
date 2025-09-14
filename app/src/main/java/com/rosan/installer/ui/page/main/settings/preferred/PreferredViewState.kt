@@ -3,9 +3,11 @@ package com.rosan.installer.ui.page.main.settings.preferred
 import com.rosan.installer.data.settings.model.datastore.entity.NamedPackage
 import com.rosan.installer.data.settings.model.datastore.entity.SharedUid
 import com.rosan.installer.data.settings.model.room.entity.ConfigEntity
+import com.rosan.installer.ui.page.main.settings.SettingsScreen
 
 data class PreferredViewState(
     val progress: Progress = Progress.Loading,
+    val startDestinationFromSettingsPage: String = SettingsScreen.Main.route,
     val authorizer: ConfigEntity.Authorizer = ConfigEntity.Authorizer.Shizuku,
     val customizeAuthorizer: String = "",
     val installMode: ConfigEntity.InstallMode = ConfigEntity.InstallMode.Dialog,

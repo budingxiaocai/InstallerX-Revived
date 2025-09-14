@@ -20,12 +20,15 @@ import com.rosan.installer.ui.page.miuix.settings.preferred.subpage.installer.Mi
 import com.rosan.installer.ui.page.miuix.settings.preferred.subpage.theme.MiuixThemeSettingsPage
 
 @Composable
-fun MiuixSettingsPage(preferredViewModel: PreferredViewModel) {
+fun MiuixSettingsPage(
+    preferredViewModel: PreferredViewModel,
+    startDestination: String = MiuixSettingsScreen.MiuixMain.route
+) {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = MiuixSettingsScreen.MiuixMain.route,
+        startDestination = startDestination,
     ) {
         composable(
             route = MiuixSettingsScreen.MiuixMain.route,

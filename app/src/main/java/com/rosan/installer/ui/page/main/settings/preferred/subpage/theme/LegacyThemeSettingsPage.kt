@@ -202,7 +202,7 @@ fun LegacyThemeSettingsPage(
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            if (isSelected) {
+                            androidx.compose.animation.AnimatedVisibility(visible = isSelected) {
                                 Icon(
                                     imageVector = AppIcons.Check,
                                     contentDescription = null,

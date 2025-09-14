@@ -28,10 +28,13 @@ import com.rosan.installer.data.settings.model.room.entity.converter.AuthorizerC
 import com.rosan.installer.data.settings.model.room.entity.converter.InstallModeConverter
 import com.rosan.installer.data.settings.util.ConfigUtil
 import com.rosan.installer.ui.activity.InstallerActivity
+import com.rosan.installer.ui.page.main.settings.SettingsScreen
+import com.rosan.installer.ui.page.miuix.settings.MiuixSettingsScreen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -58,6 +61,8 @@ class PreferredViewModel(
     val uiEvents = _uiEvents.receiveAsFlow()
 
     private var initialized = false
+
+    private val startDestinationFromSettingsPage = MutableStateFlow(SettingsScreen.Main.route)
 
     fun dispatch(action: PreferredViewAction) =
         when (action) {
@@ -191,7 +196,8 @@ class PreferredViewModel(
                 managedSharedUserIdBlacklistFlow,
                 managedSharedUserIdExemptPkgFlow,
                 adbVerifyEnabledFlow,
-                isIgnoringBatteryOptFlow
+                isIgnoringBatteryOptFlow,
+                startDestinationFromSettingsPage
             ) { values: Array<Any?> ->
                 val authorizer = values[0] as ConfigEntity.Authorizer
                 val customize = values[1] as String
@@ -212,19 +218,21 @@ class PreferredViewModel(
                 val managedSharedUserIdExemptPkg = (values[16] as? List<*>)?.filterIsInstance<NamedPackage>() ?: emptyList()
                 val adbVerifyEnabled = values[17] as Boolean
                 val isIgnoringBatteryOptimizations = values[18] as Boolean
+                val startDestinationFromSettingsPage = values[19] as String
                 val customizeAuthorizer =
                     if (authorizer == ConfigEntity.Authorizer.Customize) customize else ""
 
+                MonetCompat.getInstance().updateMonetColors()
                 MonetCompat.wallpaperColorPicker = { wallpaperColors ->
                     if (
                         wallpaperColor != Integer.MAX_VALUE &&
                         wallpaperColors?.contains(wallpaperColor) == true
                     ) wallpaperColor else wallpaperColors?.firstOrNull()
                 }
-                MonetCompat.getInstance().updateMonetColors()
 
                 PreferredViewState(
                     progress = PreferredViewState.Progress.Loaded,
+                    startDestinationFromSettingsPage = startDestinationFromSettingsPage,
                     authorizer = authorizer,
                     customizeAuthorizer = customizeAuthorizer,
                     installMode = installMode,
@@ -304,6 +312,7 @@ class PreferredViewModel(
     private fun changeUseMiuix(useMiuix: Boolean) =
         viewModelScope.launch {
             appDataStore.putBoolean(AppDataStore.UI_USE_MIUIX, useMiuix)
+            changeStartDestinationFromSettingsPage(MiuixSettingsScreen.MiuixTheme.route)
         }
 
     private fun changeShowLauncherIcon(show: Boolean) = viewModelScope.launch {
@@ -325,12 +334,17 @@ class PreferredViewModel(
     private fun changeWallpaperColor(wallpaperColor: Int) =
         viewModelScope.launch {
             appDataStore.putInt(AppDataStore.UI_WALLPAPER_COLOR, wallpaperColor)
+            changeStartDestinationFromSettingsPage(SettingsScreen.Theme.route)
         }
 
     private fun changeVersionCompareInSingleLine(singleLine: Boolean) =
         viewModelScope.launch {
             appDataStore.putBoolean(AppDataStore.DIALOG_VERSION_COMPARE_SINGLE_LINE, singleLine)
         }
+
+    private fun changeStartDestinationFromSettingsPage(route: String) {
+        startDestinationFromSettingsPage.value = route
+    }
 
     private fun addManagedPackage(list: List<NamedPackage>, key: Preferences.Key<String>, pkg: NamedPackage) =
         viewModelScope.launch {

@@ -23,12 +23,15 @@ import com.rosan.installer.ui.page.main.settings.preferred.subpage.theme.LegacyT
 import com.rosan.installer.ui.page.main.settings.preferred.subpage.theme.NewThemeSettingsPage
 
 @Composable
-fun SettingsPage(preferredViewModel: PreferredViewModel) {
+fun SettingsPage(
+    preferredViewModel: PreferredViewModel,
+    startDestination: String = SettingsScreen.Main.route
+) {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = SettingsScreen.Main.route,
+        startDestination = startDestination,
     ) {
         composable(
             route = SettingsScreen.Main.route,
