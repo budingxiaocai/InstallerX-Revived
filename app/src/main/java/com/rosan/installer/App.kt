@@ -19,6 +19,8 @@ class App : Application() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
             MonetCompat.setup(this)
             MonetCompat.enablePaletteCompat()
+
+            MonetCompat.getInstance().updateMonetColors()
         }
 
         if (RsConfig.LEVEL == Level.PREVIEW || RsConfig.isDebug) {

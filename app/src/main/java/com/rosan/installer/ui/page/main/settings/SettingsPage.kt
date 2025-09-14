@@ -31,7 +31,7 @@ fun SettingsPage(
 
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = SettingsScreen.Main.route,
     ) {
         composable(
             route = SettingsScreen.Main.route,
@@ -155,5 +155,9 @@ fun SettingsPage(
                 LegacyInstallerGlobalSettingsPage(navController = navController, viewModel = preferredViewModel)
             }
         }
+    }
+
+    if (startDestination != SettingsScreen.Main.route) {
+        navController.navigate(startDestination)
     }
 }

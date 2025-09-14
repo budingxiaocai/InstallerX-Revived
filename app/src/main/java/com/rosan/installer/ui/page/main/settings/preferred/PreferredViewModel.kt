@@ -222,13 +222,13 @@ class PreferredViewModel(
                 val customizeAuthorizer =
                     if (authorizer == ConfigEntity.Authorizer.Customize) customize else ""
 
-                MonetCompat.getInstance().updateMonetColors()
                 MonetCompat.wallpaperColorPicker = { wallpaperColors ->
                     if (
                         wallpaperColor != Integer.MAX_VALUE &&
                         wallpaperColors?.contains(wallpaperColor) == true
                     ) wallpaperColor else wallpaperColors?.firstOrNull()
                 }
+                MonetCompat.getInstance().updateMonetColors()
 
                 PreferredViewState(
                     progress = PreferredViewState.Progress.Loaded,

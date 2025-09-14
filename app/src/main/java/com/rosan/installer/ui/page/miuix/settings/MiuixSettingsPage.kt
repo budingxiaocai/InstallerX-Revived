@@ -28,7 +28,7 @@ fun MiuixSettingsPage(
 
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = MiuixSettingsScreen.MiuixTheme.route
     ) {
         composable(
             route = MiuixSettingsScreen.MiuixMain.route,
@@ -139,5 +139,9 @@ fun MiuixSettingsPage(
         ) {
             MiuixInstallerGlobalSettingsPage(navController = navController, viewModel = preferredViewModel)
         }
+    }
+
+    if (startDestination != MiuixSettingsScreen.MiuixMain.route) {
+        navController.navigate(startDestination)
     }
 }
