@@ -98,6 +98,7 @@
             android:name=".ui.activity.UninstallerActivity"
             android:excludeFromRecents="true"
             android:exported="true"
+            android:enabled="@bool/enable_uninstaller_activity"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.Installer.Translucent">
 

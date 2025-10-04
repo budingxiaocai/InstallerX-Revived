@@ -149,34 +149,36 @@ abstract class IBinderInstallerRepoImpl : InstallerRepo, KoinComponent {
         packageName: String,
         extra: InstallExtraInfoEntity,
     ) {
-        // Get the underlying IPackageManager and IPackageInstaller interfaces.
-        val iPackageManager =
-            IPackageManager.Stub.asInterface(iBinderWrapper(ServiceManager.getService("package")))
-        val iPackageInstaller =
-            IPackageInstaller.Stub.asInterface(iBinderWrapper(iPackageManager.packageInstaller.asBinder()))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Get the underlying IPackageManager and IPackageInstaller interfaces.
+            val iPackageManager =
+                IPackageManager.Stub.asInterface(iBinderWrapper(ServiceManager.getService("package")))
+            val iPackageInstaller =
+                IPackageInstaller.Stub.asInterface(iBinderWrapper(iPackageManager.packageInstaller.asBinder()))
 
-        // Prepare parameters for the direct AIDL call.
-        val receiver = LocalIntentReceiver()
-        val flags = config.uninstallFlags
-        val versionedPackage = VersionedPackage(packageName, PackageManager.VERSION_CODE_HIGHEST)
-        val callerPackageName = when (config.authorizer) {
-            ConfigEntity.Authorizer.Dhizuku -> getDhizukuComponentName() ?: context.packageName
-            else -> context.packageName
-        }
+            // Prepare parameters for the direct AIDL call.
+            val receiver = LocalIntentReceiver()
+            val flags = config.uninstallFlags
+            val versionedPackage = VersionedPackage(packageName, PackageManager.VERSION_CODE_HIGHEST)
+            val callerPackageName = when (config.authorizer) {
+                ConfigEntity.Authorizer.Dhizuku -> getDhizukuComponentName() ?: context.packageName
+                else -> context.packageName
+            }
 
-        Timber.d("Directly calling IPackageInstaller.uninstall with flags: $flags")
+            Timber.d("Directly calling IPackageInstaller.uninstall with flags: $flags")
 
-        // Directly call the method from the stub interface.
-        iPackageInstaller.uninstall(
-            versionedPackage,
-            callerPackageName,
-            flags,
-            receiver.getIntentSender(),
-            extra.userId
-        )
+            // Directly call the method from the stub interface.
+            iPackageInstaller.uninstall(
+                versionedPackage,
+                callerPackageName,
+                flags,
+                receiver.getIntentSender(),
+                extra.userId
+            )
 
-        // Step 4: The result verification logic remains the same.
-        PackageManagerUtil.uninstallResultVerify(context, receiver)
+            // Step 4: The result verification logic remains the same.
+            PackageManagerUtil.uninstallResultVerify(context, receiver)
+        } else throw Exception("Unsupported version of Android") // 正常情况下低于Android 8.0的设备不会进入到UninstallerActivity，这里直接抛错
     }
 
     private suspend fun doInnerWork(
